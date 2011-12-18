@@ -66,7 +66,7 @@ function SQLerror( $error, $message, $file )
 $sqlLink = mysql_connect('localhost', 'username', 'password');
 // Verander de host, inlog naam en wachtwoord in de juiste gegevens
 
-if( !$sqlLink )
+if( $sqlLink === false )
 {
 	// Als mysql_connect false returned is er iets mis gegaan, gebruik de net gemaakte error functie
 	SQLerror( mysql_error(), 'We kunnen geen verbinding aanmaken', __FILE__ );
@@ -77,7 +77,7 @@ else
 	$db = mysql_select_db('sql-boilerplate', $sqlLink);
 	// Verander sql-boilerplate in jou database naam
 
-	if( !$db )
+	if( $db === false )
 	{
 		// mysql_select_db geeft false terug, er is iets fout gegaan
 		SQLerror( mysql_error(), 'Er kan geen database geselecteerd worden', __FILE__);

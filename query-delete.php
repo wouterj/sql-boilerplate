@@ -57,7 +57,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 			SQLerror('', 'Er zit geen WHERE in de query, weet u zeker dat dit goed is?', __FILE__);
 		}
 
-		if( !$sQuery )
+		if( $sQuery === false )
 		{
 			// De query is niet gelukt
 			SQLerror(mysql_error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);

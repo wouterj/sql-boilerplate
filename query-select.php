@@ -38,7 +38,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		// Voer de query uit
 		$result = mysql_query($sQuery, $sqlLink);
 
-		if( !$sQuery )
+		if( $sQuery === false )
 		{
 			// De query is niet gelukt
 			SQLerror(mysql_error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);
