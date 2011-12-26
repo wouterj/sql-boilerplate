@@ -2,6 +2,10 @@
 
 SQL-Boilerplate toont de beste voorbeelden voor het maken van een SQL verbinding en het uitvoeren van queries. Hierin laten we precies zien hoe je dit het beste kunt aanpakken.
 
+## Branches bekijken op github
+
+Op github zie je rechtsboven de code een button met daarop *master* staan. Klik op deze button en klik dan op de branch die je wilt zien.
+
 ## Downloaden
 
 Je kan ervoor kiezen om SQL boilerplate volledig te downloaden, hierbij krijg je alle SQL verbindingen + queries die bestaan in de boilerplate. Je kan er ook voor kiezen om 1 onderdeel te downloaden, bijv. alleen mysql.
