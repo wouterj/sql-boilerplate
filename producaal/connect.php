@@ -4,7 +4,7 @@
  * In dit bestand maken we de verbinding met een MySQL
  * server doormiddel van MySQLi functies. In deze
  * functie zit meteen het selecteren van een db, dus
- * dat doen we ook meteen
+ * dat doen we ook meteen.
  */
 
 /* Error-Handling
@@ -45,7 +45,6 @@ function SQLerror( $error, $message, $file )
 	//          deze tekst zullen we gebruiken als DEBUG_MODE uit staat
 	// $file is het resultaat van __FILE__ in het bestand van de error
 	
-	var_dump($error);
 	global $errors; // Zorg dat de error variabele die we net hebben gemaakt in deze functie komt
 
 	if( DEBUG_MODE )
@@ -65,23 +64,12 @@ function SQLerror( $error, $message, $file )
 /* CONNECTIE MET MySQL SERVER
  * ==========================
  */
-$sqlLink = mysql_connect('localhost', 'username', 'password');
-// Verander de host, inlog naam en wachtwoord in de juiste gegevens
+$sqlLink = mysqli_connect('localhost', 'username', 'password', 'sql-boilerplate');
+// Verander de host, inlog naam, wachtwoord en sql-boilerplate (db) in de juiste gegevens
 
 if( $sqlLink === false )
 {
-	// Als mysql_connect false returned is er iets mis gegaan, gebruik de net gemaakte error functie
-	SQLerror( mysql_error(), 'We kunnen geen verbinding aanmaken', __FILE__ );
-}
-else
-{
-	// Alles is goed gegaan, selecteer een database
-	$db = mysql_select_db('sql-boilerplate', $sqlLink);
-	// Verander sql-boilerplate in jou database naam
-
-	if( $db === false )
-	{
-		// mysql_select_db geeft false terug, er is iets fout gegaan
-		SQLerror( mysql_error(), 'Er kan geen database geselecteerd worden', __FILE__);
-	}
+	// Als mysqli_connect false returned is er iets mis gegaan, gebruik de net gemaakte error functie
+	// Omdat het de connectie betreft gebruiken we mysqli_connect_error()
+	SQLerror( mysqli_connect_error(), 'We kunnen geen verbinding aanmaken', __FILE__ );
 }

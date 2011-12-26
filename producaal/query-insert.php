@@ -46,8 +46,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 			$rank = 0;
 		}
 
-		// Gebruik altijd mysql_real_escape_string voor alle
-		// variabelen die de gebruiker kan aanpassen (alles met $_)
+		// Gebruik altijd mysqli_escape_string voor alle variabelen die de gebruiker kan 
+		// aanpassen (alles met $_) en een string is. Voor de andere types moet je gaan
+		// typecasten.
+		// Het gebruik van mysqli_escape_string zonder quotes in de query heeft geen nut.
 		$iQuery = "
 			INSERT INTO
 				users
@@ -58,8 +60,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 				)
 			VALUES
 				(
-					'".mysql_real_escape_string(ucfirst(trim($_POST['naam'])))."',
-					'".mysql_real_escape_string($_POST['job'])."',
+					'".mysqli_escape_string(ucfirst(trim($_POST['naam'])))."',
+					'".mysqli_escape_string($_POST['job'])."',
 					".(int) $rank."
 				)
 			";
@@ -69,25 +71,26 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		// zijn dat dit een int is
 		
 		// Voer de query uit
-		$result = mysql_query($iQuery, $sqlLink);
+		$result = mysqli_query($sqlLink, $iQuery);
+		// De parameters zijn precies het omgekeerde van mysql_query. En de link is verplicht
 
 		if( $sQuery === false )
 		{
 			// De query is niet gelukt
-			SQLerror(mysql_error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);
+			SQLerror(mysqli_error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);
 		}
 		else
 		{
 			// De query is gelukt, maar heeft hij echt wel iets ingevoegt?
 			// Dat bekijken we met mysql_affected_rows(), deze geeft het
 			// aantal ingevoegde rijen terug.
-			if( mysql_affected_rows($sqlLink) > 0 )
+			if( mysqli_affected_rows($sqlLink) > 0 )
 			{
 				// Er zijn meer dan 0 rijen ingevoegt, dus het is gelukt!
 
 				// Met mysql_insert_id() kunnen we het id ophalen, hierbij
 				// moet het id veld wel een auto_increment hebben.
-				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is in het systeem '.mysql_insert_id();
+				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is in het systeem '.mysqli_insert_id($sqlLink);
 			}
 			else
 			{

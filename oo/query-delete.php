@@ -34,13 +34,16 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 	{
 		// Er zit niks in $userErrors en dus is alles goed
 
-		// Gebruik altijd mysql_real_escape_string voor alle
+		// Gebruik altijd MySQLi::escape_string() voor alle
 		// variabelen die de gebruiker kan aanpassen (alles met $_)
+		// en het moet ook een string zijn. Voor andere types
+		// moet je gaan typecasten.
+		// Ook moet je in de query quotes gebruiken
 		$dQuery = "
 			DELETE FROM
 				users
 			WHERE
-				name = '".mysql_real_escape_string(ucfirst(trim($_POST['naam'])))."'
+				name = '".$sqlLink->escape_string(ucfirst(trim($_POST['naam'])))."'
 			";
 		// Gebruik in je query geen backtricks (`) 
 		// en alleen quotes (') als je te maken hebt met een string ($_POST['naam'] in dit geval)
@@ -50,30 +53,31 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		if( saveSQL($dQuery) )
 		{
 			// Voer de query uit
-			$result = mysql_query($sQuery, $sqlLink);
+			$result = $sqlLink->query($sqlLink, $sQuery);
 		}
 		else
 		{
+			// De query is niet save
 			SQLerror('', 'Er zit geen WHERE in de query, weet u zeker dat dit goed is?', __FILE__);
 		}
 
 		if( $sQuery === false )
 		{
 			// De query is niet gelukt
-			SQLerror(mysql_error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);
+			SQLerror($sqlLink->error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);
 		}
 		else
 		{
 			// De query is gelukt, maar heeft hij echt wel iets ingevoegt?
 			// Dat bekijken we met mysql_affected_rows(), deze geeft het
 			// aantal ingevoegde rijen terug.
-			if( mysql_affected_rows($sqlLink) > 0 )
+			if( $sqlLink->affected_rows($sqlLink) > 0 )
 			{
 				// Er zijn meer dan 0 rijen ingevoegt, dus het is gelukt!
 
-				// Met mysql_insert_id() kunnen we het id ophalen, hierbij
+				// Met MySQLi::insert_id kunnen we het id ophalen, hierbij
 				// moet het id veld wel een auto_increment hebben.
-				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is in het systeem '.mysql_insert_id();
+				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is in het systeem '.$sqlLink->insert_id;
 			}
 			else
 			{

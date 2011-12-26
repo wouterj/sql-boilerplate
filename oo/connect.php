@@ -45,7 +45,6 @@ function SQLerror( $error, $message, $file )
 	//          deze tekst zullen we gebruiken als DEBUG_MODE uit staat
 	// $file is het resultaat van __FILE__ in het bestand van de error
 	
-	var_dump($error);
 	global $errors; // Zorg dat de error variabele die we net hebben gemaakt in deze functie komt
 
 	if( DEBUG_MODE )
