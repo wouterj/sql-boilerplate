@@ -36,6 +36,9 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
 		// Gebruik altijd mysql_real_escape_string voor alle
 		// variabelen die de gebruiker kan aanpassen (alles met $_)
+		// en die een string zijn. Bij andere types moet je gaan
+		// typecasten. Ook werkt de beveiling alleen als je ook
+		// quotes in de query plaats.
 		$dQuery = "
 			DELETE FROM
 				users
@@ -54,6 +57,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		}
 		else
 		{
+			// Geen save query
 			SQLerror('', 'Er zit geen WHERE in de query, weet u zeker dat dit goed is?', __FILE__);
 		}
 
