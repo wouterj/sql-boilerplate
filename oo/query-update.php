@@ -75,20 +75,18 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		}
 		else
 		{
-			// De query is gelukt, maar heeft hij echt wel iets ingevoegt?
+			// De query is gelukt, maar heeft hij echt wel iets aangepast?
 			// Dat bekijken we met mysql_affected_rows(), deze geeft het
-			// aantal ingevoegde rijen terug.
+			// aantal aangepaste rijen terug.
 			if( $result->affected_rows() > 0 )
 			{
-				// Er zijn meer dan 0 rijen ingevoegt, dus het is gelukt!
+				// Er zijn meer dan 0 rijen aangepast, dus het is gelukt!
 
-				// Met MySQLi::insert_id kunnen we het id ophalen, hierbij
-				// moet het id veld wel een auto_increment hebben.
 				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is in het systeem '.$sqlLink->insert_id;
 			}
 			else
 			{
-				// Er is niks gevonden, dit is geen systeem fout maar een zoekfout => user error
+				// Er is niks aangepast, dit is geen systeem fout maar een zoekfout => user error
 				$userError[] = 'Het opslaan is niet gelukt, probeer het later nog eens.';
 			}
 		}
