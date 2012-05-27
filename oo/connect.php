@@ -4,7 +4,7 @@
  * In dit bestand maken we de verbinding met een MySQL
  * server doormiddel van MySQLi functies. In deze
  * functie zit meteen het selecteren van een db, dus
- * dat doen we ook meteen
+ * dat doen we ook meteen.
  */
 
 /* Error-Handling
@@ -23,36 +23,36 @@ define('DEBUG_MODE', true);
  * We slaan alle errors op in $errors. Deze lezen we in het
  * script uit in via een foreach loop
  */
-$errors = Array();
+$errors = array();
 
-if( DEBUG_MODE )
-{ // DEBUG_MODE staat aan
+if (DEBUG_MODE) { 
+    // DEBUG_MODE staat aan
 	// Zorg dat we alle errors te zien krijgen
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL | E_NOTICE);
-}
-else
-{
+} else {
 	// DEBUG_MODE uit dus geen errors tonen
 	ini_set('display_errors', 'Off');
 	error_reporting(0);
 }
 
-function SQLerror( $error, $message, $file )
+/*
+ * Een functie zodat we makkelijk en mooi errors kunnen tonen
+ */
+function SQLerror($error, $message, $file)
 {
-	// $error is het resultaat van mysqli::error
+	// $error is het resultaat van MySQLi::error()
 	// $message is de tekst die bij de error staat, 
 	//          deze tekst zullen we gebruiken als DEBUG_MODE uit staat
 	// $file is het resultaat van __FILE__ in het bestand van de error
 	
 	global $errors; // Zorg dat de error variabele die we net hebben gemaakt in deze functie komt
 
-	if( DEBUG_MODE )
-	{ # DEBUG_MODE aan => sla de errors op zodat we ze later kunnen tonen
+    if (DEBUG_MODE) { 
+        // DEBUG_MODE aan => sla de errors op zodat we ze later kunnen tonen
 		$errors[] = $message.': '.$error;
-	}
-	else
-	{ # DEBUG_MODE uit => log de errors en sla alleen de $message op
+    } else { 
+        // DEBUG_MODE uit => log de errors en sla alleen de $message op
 		// We slaan niet alleen de error op, maar ook het bestand en de datum
 		$log = $file.' ['.date('H:i:s').'] '.$error;
 		error_log($log);
@@ -67,8 +67,7 @@ function SQLerror( $error, $message, $file )
 $sqlLink = new MySQLi('localhost', 'username', 'password', 'sql-boilerplate');
 // Verander de host, inlog naam, wachtwoord en sql-boilerplate (database) in de juiste gegevens
 
-if( $sqlLink === false )
-{
+if ($sqlLink === false) {
 	// Als MySQLi false returned is er iets mis gegaan, gebruik de net gemaakte error functie
 	// Omdat het een verbinding is maken we gebruik van MySQLi::connect_error
 	SQLerror( $sqlLink->connect_error(), 'We kunnen geen verbinding aanmaken', __FILE__ );

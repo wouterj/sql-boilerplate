@@ -10,28 +10,27 @@ require 'connect.php';
  * Om dit te voorkomen maken we een simpele safeSQL functie om te kijken of
  * we wel een where erin hebben zitten
  */
-function safeSQL( $query )
+function safeSQL($query)
 {
-	if( preg_match('/WHERE\s.*?=.*?/i', $query) )
+	if (preg_match('/WHERE\s.*?=.*?/i', $query)) {
 		return true;
+    }
+
 	return false;
 }
 
 // Maak een array voor foutmeldingen voor de gebruiker
-$userErrors = Array();
+$userErrors = array();
 
-if( $_SERVER['REQUEST_METHOD'] == 'POST' )
-{
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	// Het formulier is verzonden
 
-	if( !isset($_POST['naam']) || $_POST['naam'] == '' )
-	{
+	if (!isset($_POST['naam']) || ($_POST['naam'] == '')) {
 		// Naam is niet ingevuld
 		$userErrors[] = 'U heeft geen naam ingevuld';
 	}
 
-	if( count($userErrors) == 0 )
-	{
+	if(count($userErrors) === 0) {
 		// Er zit niks in $userErrors en dus is alles goed
 
 		// Gebruik altijd MySQLi::escape_string() voor alle
@@ -50,39 +49,28 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		// en dus niet bij $rank, want dit is een int. Hierbij zetten we (int) om er zeker van te
 		// zijn dat dit een int is
 		
-		if( safeSQL($dQuery) )
-		{
+		if (safeSQL($dQuery)) {
 			// Voer de query uit
 			$result = $sqlLink->query($sqlLink, $sQuery);
-		}
-		else
-		{
+		} else {
 			// De query is niet safe
 			SQLerror('', 'Er zit geen WHERE in de query, weet u zeker dat dit goed is?', __FILE__);
 		}
 
-		if( $sQuery === false )
-		{
+		if ($sQuery === false) {
 			// De query is niet gelukt
 			SQLerror($sqlLink->error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);
-		}
-		else
-		{
+		} else {
 			// De query is gelukt, maar heeft hij echt wel iets ingevoegt?
-			// Dat bekijken we met mysql_affected_rows(), deze geeft het
+			// Dat bekijken we met MySQLi::affected_rows(), deze geeft het
 			// aantal ingevoegde rijen terug.
-			if( $sqlLink->affected_rows($sqlLink) > 0 )
-			{
+			if ($sqlLink->affected_rows($sqlLink) > 0) {
 				// Er zijn meer dan 0 rijen ingevoegt, dus het is gelukt!
 
-				// Met MySQLi::insert_id kunnen we het id ophalen, hierbij
-				// moet het id veld wel een auto_increment hebben.
-				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is in het systeem '.$sqlLink->insert_id;
-			}
-			else
-			{
+				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is verwijderd';
+			} else {
 				// Er is niks gevonden, dit is geen systeem fout maar een zoekfout => user error
-				$userError[] = 'Het opslaan is niet gelukt, probeer het later nog eens.';
+				$userError[] = 'Het verwijderen is niet gelukt, probeer het later nog eens.';
 			}
 		}
 	}
@@ -93,34 +81,37 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 <html lang=nl>
 <head>
 	<meta charset=UTF-8>
-	<title>SQL Boilerplate - SELECT query met MySQL</title>
+	<title>SQL Boilerplate - DELETE query met MySQLi</title>
 </head>
 <body>
-	<?php if( count($errors) > 0 ) : 
+	<?php if (count($errors) > 0) : 
 		  // Er zijn errors gevonden ?>
 		<div class="error">
 			<ul>
-			<?php foreach( $errors as $err ) : ?>
-				<li><?php echo $err; ?></li>
+			<?php foreach ($errors as $err) : ?>
+				<li><?php echo $err ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</div>
 	<?php endif; ?>
-	<?php if( count($userErrors) > 0 ) : 
+	<?php if (count($userErrors) > 0) : 
 		  // Er zijn errors gevonden ?>
 		<div class="error">
 			<ul>
-			<?php foreach( $userErrors as $err ) : ?>
+			<?php foreach ($userErrors as $err) : ?>
 				<li><?php echo $err; ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</div>
-	<?php endif; ?>
-	<?php if( isset($resultMessage) ) echo $resultMessage; ?>
-	<h2>Add new user</h2>
+	<?php endif;
+    if (isset($resultMessage)) {
+        echo $resultMessage;
+    } 
+    ?>
+	<h2>Delete user</h2>
 	<form action method=post>
-		<label>Naam: <input type=text name=naam /></label><br>
-		<input type=submit value=Opslaan />
+		<label>Naam: <input type=text name=naam></label><br>
+		<input type=submit value=Verwijderen>
 	</form>
 </body>
 </html>

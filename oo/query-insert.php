@@ -6,49 +6,36 @@ require 'connect.php';
 // Maak een array voor foutmeldingen voor de gebruiker
 $userErrors = Array();
 
-if( $_SERVER['REQUEST_METHOD'] == 'POST' )
-{
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	// Het formulier is verzonden
 
-	if( !isset($_POST['naam']) || $_POST['naam'] == '' )
-	{
+	if (!isset($_POST['naam']) || ($_POST['naam'] == '')) {
 		// Naam is niet ingevuld
 		$userErrors[] = 'U heeft geen naam ingevuld';
 	}
-	if( !isset($_POST['job']) || $_POST['job'] == '' )
-	{
+	if (!isset($_POST['job']) || ($_POST['job'] == '')) {
 		// Er is niks geselecteerd
 		$userErrors[] = 'U heeft geen baan job ingevuld';
 	}
 
-	if( count($userErrors) == 0 )
-	{
+	if (count($userErrors) === 0) {
 		// Er zit niks in $userErrors en dus is alles goed
 
-		if( $_POST['job'] == 'dev' )
-		{
+		if ($_POST['job'] === 'dev') {
 			$rank = 2;
-		}
-		elseif( $_POST['job'] == 'designer' )
-		{
+		} elseif ($_POST['job'] === 'designer') {
 			$rank = 1;
-		}
-		elseif( $_POST['job'] == 'leader' )
-		{
+		} elseif ($_POST['job'] === 'leader') {
 			$rank = 5;
-		}
-		elseif( $_POST['job'] == 'it' )
-		{
+		} elseif ($_POST['job'] === 'it') {
 			$rank = 3;
-		}
-		else
-		{
+		} else {
 			$rank = 0;
 		}
 
-		// Gebruik altijd MySQLi::escape_string (alias van MySQLi::real_escape_string) 
+		// Gebruik altijd MySQLi::escape_string() (alias van MySQLi::real_escape_string()) 
 		// voor alle variabelen die een string bevatten en die de gebruiker kan 
-		// aanpassen (alles met $_). Het gebruik van MySQLi::escape_string zonder het
+		// aanpassen (alles met $_). Het gebruik van MySQLi::escape_string() zonder het
 		// gebruik van quotes in de query is nog steeds niet goed.
 		$iQuery = "
 			INSERT INTO
@@ -73,28 +60,25 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		// Voer de query uit
 		$result = $sqlLink->query($iQuery);
 
-		if( $sQuery === false )
-		{
+		if ($sQuery === false) {
 			// De query is niet gelukt
 			SQLerror($sqlLink->error(), 'Uw opdracht kan niet worden uitgevoerd', __FILE__);
-		}
-		else
-		{
+		} else {
 			// De query is gelukt, maar heeft hij echt wel iets ingevoegt?
-			// Dat bekijken we met mysql_affected_rows(), deze geeft het
+			// Dat bekijken we met MySQLi::affected_rows(), deze geeft het
 			// aantal ingevoegde rijen terug.
-			if( $result->affected_rows() > 0 )
-			{
+			if ($result->affected_rows() > 0) {
 				// Er zijn meer dan 0 rijen ingevoegt, dus het is gelukt!
 
-				// Met MySQLi::insert_id kunnen we het id ophalen, hierbij
+				// Met MySQLi::insert_id() kunnen we het id ophalen, hierbij
 				// moet het id veld wel een auto_increment hebben.
 				$resultMessage = 'Uw opdracht is succesvol uitgevoerd. '.$_POST['naam'].' is in het systeem '.$sqlLink->insert_id;
 			}
 			else
 			{
-				// Er is niks gevonden, dit is geen systeem fout maar een zoekfout => user error
-				$userError[] = 'Het opslaan is niet gelukt, probeer het later nog eens.';
+				// Er is niks ingevoegd
+                // Omdat het geen echte error is maken we onze eigen error
+				SQLerror('A fould with inserting: '.$iQuery, 'Het opslaan is niet gelukt, probeer het later nog eens.', __FILE__);
 			}
 		}
 	}
@@ -105,30 +89,33 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 <html lang=nl>
 <head>
 	<meta charset=UTF-8>
-	<title>SQL Boilerplate - SELECT query met MySQL</title>
+	<title>SQL Boilerplate - UPDATE query met MySQLi</title>
 </head>
 <body>
-	<?php if( count($errors) > 0 ) : 
+	<?php if (count($errors) > 0) : 
 		  // Er zijn errors gevonden ?>
 		<div class="error">
 			<ul>
-			<?php foreach( $errors as $err ) : ?>
+			<?php foreach ($errors as $err) : ?>
 				<li><?php echo $err; ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</div>
 	<?php endif; ?>
-	<?php if( count($userErrors) > 0 ) : 
+	<?php if (count($userErrors) > 0) : 
 		  // Er zijn errors gevonden ?>
 		<div class="error">
 			<ul>
-			<?php foreach( $userErrors as $err ) : ?>
+			<?php foreach ($userErrors as $err) : ?>
 				<li><?php echo $err; ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</div>
-	<?php endif; ?>
-	<?php if( isset($resultMessage) ) echo $resultMessage; ?>
+	<?php endif; 
+    if (isset($resultMessage)) {
+        echo $resultMessage; 
+    }
+    ?>
 	<h2>Add new user</h2>
 	<form action method=post>
 		<label>Naam: <input type=text name=naam /></label><br>
