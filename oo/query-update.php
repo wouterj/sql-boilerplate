@@ -54,14 +54,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
             UPDATE 
                 users
 			SET
-                name = '".$sqlLink->escape_string(ucfirst(trim($_POST['naam'])))."'
-                AND
-                    job = '".$sqlLink->escape_string($_POST['job'])."'
+                job = '".$sqlLink->escape_string($_POST['job'])."'
                 AND
                     rank = ".(int) $rank."
-
             WHERE
-                id = 
+                name = '".$sqlLink->escape_string(ucfirst(trim($_POST['naam'])))."'
 			";
 		// Gebruik in je query geen backtricks (`) 
 		// en alleen quotes (') als je te maken hebt met een string ($_POST['naam'] in dit geval)

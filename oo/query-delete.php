@@ -7,10 +7,10 @@ require 'connect.php';
  * ============================
  * Omdat we nu een delete query gebruiken is er een kans dat we per ongeluk
  * de where vergeten in de query. Hierdoor zal heel te tabel worden verwijderd(!)
- * Om dit te voorkomen maken we een simpele saveSQL functie om te kijken of
+ * Om dit te voorkomen maken we een simpele safeSQL functie om te kijken of
  * we wel een where erin hebben zitten
  */
-function saveSQL( $query )
+function safeSQL( $query )
 {
 	if( preg_match('/WHERE\s.*?=.*?/i', $query) )
 		return true;
@@ -50,14 +50,14 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' )
 		// en dus niet bij $rank, want dit is een int. Hierbij zetten we (int) om er zeker van te
 		// zijn dat dit een int is
 		
-		if( saveSQL($dQuery) )
+		if( safeSQL($dQuery) )
 		{
 			// Voer de query uit
 			$result = $sqlLink->query($sqlLink, $sQuery);
 		}
 		else
 		{
-			// De query is niet save
+			// De query is niet safe
 			SQLerror('', 'Er zit geen WHERE in de query, weet u zeker dat dit goed is?', __FILE__);
 		}
 
