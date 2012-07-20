@@ -2,9 +2,8 @@
  * @name	: SQL Boilerplate Stylesheet
  * @author	: Wouter J
  */
-html, body	{ width: 100%; height: 100%; }
-html, body, body *
-{
+html, body	{ width: 100%; height: 100%; float: left; }
+html, body, body * {
 	margin: 0;
 	padding: 0;
 
@@ -18,51 +17,142 @@ html, body, body *
 	border: none;
 }
 head, head *, style, script,
-[hidden], [type=hidden]
-{
+[hidden], [type=hidden] {
 	display: none;
 	visibility: hidden;
 }
-b, strong	{ font-weight: 600;	  }
-i, em		{ font-style: italic; }
+b, strong	{ font-weight: 600;           }
+i, em		{ font-style: italic;         }
+u, a:hover  { text-decoration: underline; }
 
+
+/*
+ * TYPOGRAPHY
+ */
+body {
+    font: 16px Lato, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family:  Inconsolata;
+    margin: 15px 0 5px;
+}
+h1 { font-size: 25pt; }
+h2 { font-size: 22pt; }
+h3 { font-size: 20pt; }
+h4 { font-size: 17pt; }
+h5 { font-size: 16pt; }
+h6 { font-size: 15pt; }
+p {
+    line-height: 1.5;
+}
 
 /*
  * MAIN STYLES
  */
-body
-{
-	font-family: 'Helvetica';
-	background: #FEFEE7;
+#wrapper {
+    width: 900px;
+    margin: 0 auto;
+    border-top: 3px solid #0007B4;
 }
 
-#wrapper
-{
-	width: 1000px;
-	margin: 0 auto;
-	background: #FEF8F5;
-	box-shadow: 1px 1px 3px #c33;
+header {
+    background: #f3f3f3;
+    float: left;
+    width: 100%;
 }
-#logo
-{
-	width: 620px;
-	font-size: 4em;
-	font-weight: 600;
-	margin: 0 auto;
-}
-#logo span
-{
-	font-size: 1em;
-	color: #c33;
-}
-#logo::before
-{
-	content: '➫';
+    header blockquote {
+        width: 680px;
+        margin: 15px auto;
+    }
+        header p {
+            padding: 0 20px;
 
-	text-shadow: 5px 20px 1px rgba(0,0,0,.2);
-}
+            font-style: italic;
+            font-size: 16pt;
 
-#content
-{
-	border-top: 1px solid #fee;
+            position: relative;
+        }
+            header p:before,
+            header p:after {
+                content: '"';
+                font-size: 40px;
+                font-weight: bold;
+                color: #aaa;
+                
+                position: absolute;
+            }
+                header p:before { left: 0; top: -12px; }
+                header p:after { right: 0; bottom: -30px; }
+            header .source {
+                font-size: 16px;
+                display: block;
+                text-indent: 50px;
+            }
+                header .source:before {
+                    content: '\2014 ';
+                    margin-right: .5em;
+                }
+
+.articles {
+    margin: 50px 0 20px;
+    text-align: center;
 }
+article {
+    border-top: 2px dashed #77f;
+    clear: both;
+}
+    article:nth-child(odd) {
+        background: #f7f7f7;
+    }
+    article:after { content: ''; display: block; clear: both; }
+    article p {
+        width: 900px;
+        float: right;
+        padding-left: 10px;
+    }
+    aside {
+        float: left;
+        width: 120px;
+        margin-left: -130px;
+
+        font-size: 15px;
+    }
+    .link {
+        text-decoration: none;
+        color: #ddd;
+        margin-left: -24px;
+    }
+        .link:hover {
+            color: #333;
+            text-decoration: none;
+        }
+    .more {
+        float: right;
+        padding: 3px 5px;
+        background: #ddd;
+        margin: 10px;
+        border: 1px solid #777;
+        font-size: 15px;
+        text-decoration: none;
+    }
+
+.buttons li {
+    width: 30%;
+    float: left;
+    height: 40px;
+    background: #ddd;
+    margin: 10px 1.5% 0;
+
+    line-height: 40px;
+    text-align: center;
+
+    list-style: none;
+}
+    .buttons li:hover {
+        background: #77f;
+    }
+    .buttons a {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
