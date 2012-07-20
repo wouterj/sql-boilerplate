@@ -106,6 +106,9 @@ header {
         list-style: none;
         margin: 0 15px;
     }
+        #wrapper > nav li:hover a {
+            color: #0007B4;
+        }
         #wrapper > nav a {
             text-decoration: none;
             font-size: 1.1em;
@@ -119,7 +122,7 @@ article {
     border-top: 2px dashed #77f;
     clear: both;
 }
-    article:nth-child(odd) {
+    article:nth-child(even) {
         background: #f7f7f7;
     }
     article:after { content: ''; display: block; clear: both; }
