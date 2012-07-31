@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang=nl>
+	<head>
+		<meta charset=utf-8>
+		<title>SQL Boilerplate</title>
+		<link rel=stylesheet href=../css/style.css>
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700|Ubuntu:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+        <div id=wrapper>
+            <header id=header>
+                <h1>SQL Boilerplate</h1>
+            </header>
+
+            <nav id=nav>
+                <ul>
+                    <li><a href="/sql-boilerplate/index.html">Home</a></li>
+                    <li><a href="/sql-boilerplate/download.html">Downloads</a></li>
+                    <li><a href="/sql-boilerplate/articles.html">Artikelen</a></li>
+                </ul>
+            </nav>
+
+            <article id=waarom-foutafhandeling-belangrijk-is>
+                <h2><a href=#waarom-foutafhandeling-belangrijk-is class=link>&#167;</a> Waarom foutafhandeling belangrijk is</h2>
+                <img src=../images/error-handling.jpg class=intro>
+                <p>Een error is niet te voorkomen. Probeer je zelf zo goed mogelijk te helpen en zorg dat je geen bezoekers, en potenci&euml;le klanten verliest en begin vanaf regel 1 met foutafhandeling.</p>
+
+                <h3 id=waarom-zou-ik><a class=link href=#waarom-zou-ik>&#167;</a> Waarom kan ik niet even alleen de fout oplossen?</h3>
+                <p>Er is een error opgelopen bij PHP en beginners weten niet wat ze er mee moeten. Ze vragen het op het forum en dan krijg je de eerste 5 berichten alleen maar gezeur dat je goede foutafhandeling moet toevoegen. Waarom geven ze niet gewoon even de oplossing?</p>
+
+                <aside>
+                    In de development fase maak je het script, in de test fase test je het script en de productie fase is de fase waarin de website online is en voor iedereen beschikbaar is.
+                </aside>
+                <p>Het antwoord is simpel. Een programmeur zal altijd fouten maken. Hoe goed je ook bent in het scripten zodra je een script hebt gemaakt zullen er altijd fouten inzitten. In de test fase zul je probeer zoveel mogelijk fouten op te lossen, maar grote kans dat er een paar toch in blijven zitten.</p>
+
+                <br>
+                <p>Je wilt het liefst zo min mogelijk tijd kwijt zijn aan het vinden van de fout. De foutmelding van PHP zal nooit geweldige informatie geven, daarom kun je beter even wat meer tijd steken in het bouwen van een mooie foutafhandeling. <em class=highlight>Hierdoor kun je makkelijk en snel vinden wat de fout is.</em></p>
+
+                <p>Later als je in de productie fase zit zul je niet willen dat je gebruikers de fout zien. Daarom is het belangrijk om op dat moment de fout op te vangen en een bezoekers vriendelijke foutmelding te geven. Je kunt zelfs helemaal niks weergeven, mocht het om een niet kritieke fout gaan. Het tonen van de PHP error aan de bezoeker geeft een <em class=highlight>niet professionele
+                    uitstraling</em> en kan voor <em class=highlight>veiligheids lekken</em> zorgen.</p>
+
+                <h3 id=error-levels><a class=link href=#error-levels>&#167;</a> Welke PHP errors zijn er?</h3>
+                <p>Een PHP error heeft verschillende levels: NOTICE, WARNING en ERROR. De notice is het minst erg en de error het ergst. Alle errors horen niet en dus zul je ze allemaal moeten oplossen.</p>
+
+                <h4 id=notice><a class=link href=#notice>&#167;</a> Notice</h4>
+                <p>PHP geeft een notice als het script gewoon normaal kan worden uitgevoerd, maar je misschien later problemen kan gaan krijgen. Je krijgt zo'n melding als je een deprecated functie gebruikt, zoals een eregi_* functie. PHP kan dan gewoon de eregi functie gebruiken, maar weet ook dat hij een paar versies later dat niet meer kan. Hij
+                bereid je al vast voor.</p>
+                <p>Een ander voorbeeld is als er een bestand niet bestaat en jij wilt de content lezen. Hij geeft gewoon als content niks op en laat het script verder gaan. Alleen PHP weet dat als jij later wat met die content wilt gaan doen je problemen kan krijgen, hij meld dus alvast dat hier wellicht de oorzaak van het probleem een paar regels verder op is. <em class=highlight>In PHP is het
+                    vaak zo dat de ene error wordt gevolgt door een andere error</em></p>
+
+                <h4 id=warning><a class=link href=#warning>&#167;</a> Warning</h4>
+                <p>Nu beginnen we in het echte error gebied te komen. PHP heeft ontdekt dat er iets fout is gegaan, maar het is nog niet een fatale fout. PHP is namelijk zo vriendelijk om de code voor je aan te passen zodat hij wel goed gaat werken. Het parsen van het script loopt dus gewoon door en er lijkt vaak niks aan de hand te zijn. Totdat deze warning gevolgt wordt door een fout die PHP
+                niet meer kan oplossen...</p>
+
+                <h4 id=error><a class=link href=#error>&#167;</a> Error</h4>
+                <p>En dat is de error. Deze is voor fatale fouten. PHP kan zo vriendelijk zijn als hij wil alleen oplossen dat kan hij niet. Hij stopt dus het script geeft je een error en je zult het zelf moeten oplossen.</p>
+
+                <h3 id=error-afhandelen><a class=link href=#error-afhandelen>&#167;</a> Wat doe je met een PHP error?</h3>
+                <p>Allereerst moet je hem opvangen. Dit doe je door een eigen PHP error handler aan te maken, dit is een functie.</p>
+
+                <p><em class=highlight>Deze functie moet eerst kijken in welke fase je zit.</em> In de dev/test fase zul je de error gewoon op het scherm gooien met eventuele andere handige dingen die het je makkelijk zullen maken. In de productie fase moet je gaan kijken of het script gewoon verder kan en je de bezoeker niks laat melden of dat je de bezoeker een vriendelijk error melding geeft.
+                Ook zul je de error ergens weg moeten zetten, zodat jij wel weet dat er ergens een fout is opgetreden.</p>
+
+                <p>Hoe we deze functie maken en hoe we het ons zelf zo gemakkelijk mogelijk kunnen maken kun je later in een andere tutorial lezen.</p>
+			</article>
+        </div>
+    </body>
+</html>
